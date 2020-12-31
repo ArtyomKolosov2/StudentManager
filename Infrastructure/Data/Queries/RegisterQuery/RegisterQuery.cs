@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentManager_API.Data
+namespace Infrastructure.Data.Queries.RegisterQuery
 {
-    public class UserDbContext 
+    public class RegisterQuery
     {
     }
 }
