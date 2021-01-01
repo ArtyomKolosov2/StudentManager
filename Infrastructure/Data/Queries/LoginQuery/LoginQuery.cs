@@ -12,6 +12,7 @@ namespace Infrastructure.Data.Queries.LoginQuery
         [EmailAddress]
         public string Email { get; set; }
         [DataType(DataType.Password)]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "Неверный размер")]
         public string Password { get; set; }
     }
 }

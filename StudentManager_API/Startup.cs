@@ -39,7 +39,15 @@ namespace StudentManager_API
             var defaultConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<StudentManagerDbContext>(options => options.UseSqlServer(defaultConnection));
 
-            var builder = services.AddIdentityCore<User>();
+            var builder = services.AddIdentityCore<User>(opts =>
+            {
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+                opts.Password.RequireLowercase = false;
+                opts.Password.RequireUppercase = false;
+                opts.Password.RequireDigit = false;
+                opts.User.RequireUniqueEmail = true;
+            });
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
 
             identityBuilder.AddEntityFrameworkStores<StudentManagerDbContext>();

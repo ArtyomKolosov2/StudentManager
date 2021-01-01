@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data.Queries.LoginQuery;
+using Infrastructure.Data.Queries.RegisterQuery;
 using Infrastructure.Services;
 using Infrastructure.Services.Base;
 using Microsoft.AspNetCore.Authorization;
@@ -32,27 +33,53 @@ namespace StudentManager_API.Controllers
         [HttpPost("Login")]
 		public async Task<ActionResult> Login(LoginQuery request)
 		{
-			var user = await _userManager.FindByEmailAsync(request.Email);
-			if (user == null)
-			{
-				return Unauthorized();
-			}
-
-			var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-			if (result.Succeeded)
-			{
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user is null)
+            {
+                return Unauthorized();
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            if (result.Succeeded)
+            {
                 var response = new
                 {
                     access_token = _generator.CreateJwtToken(user),
                     username = user.UserName,
                 };
                 return Ok(response);
-			}
+            }
             else
             {
                 return Unauthorized();
             }
-		}
+        }
+        [HttpPost("Register")] 
+        public async Task<ActionResult> Register(RegisterQuery registerQuery)
+        {
+            if (ModelState.IsValid)
+            {
+                var newUser = new User
+                {
+                    DisplayFirstName = registerQuery.FirstName,
+                    DisplayLastName = registerQuery.LastName,
+                    UserName = registerQuery.Login,
+                    Email = registerQuery.Email,
+                };
+                var identityResult = await _userManager.CreateAsync(newUser, registerQuery.Password);
+                if (identityResult.Succeeded)
+                {
+                    await _signInManager.CheckPasswordSignInAsync(newUser, registerQuery.Password, false);
+                    var response = new { Message = "Register successful! Wait for confirmation." };
+                    return Ok(response);
+                }
+            }
+            return BadRequest();
+        }
+        [HttpPost("Logout")]
+        public async Task<ActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new {Message = "Logout successful!" });
+        }
 	}
 }
