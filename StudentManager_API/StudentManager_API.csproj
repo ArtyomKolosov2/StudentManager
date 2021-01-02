@@ -5,6 +5,10 @@
     <UserSecretsId>1f8a24d6-27b1-49e9-8d43-c9f720a81a52</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\User\source\repos\StudentManager\StudentManager_API\StudentManager_API.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.1" NoWarn="NU1605" />
@@ -22,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\StudentManager-Core\StudentManager-Core.csproj" />
   </ItemGroup>
 
 </Project>

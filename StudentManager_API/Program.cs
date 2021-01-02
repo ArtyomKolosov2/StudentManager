@@ -1,20 +1,25 @@
 using Infrastructure.Context;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StudentManager_Core.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace StudentManager_API
 {
+    /// <summary>
+    /// Entry point of project
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// Method main
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
@@ -24,9 +29,10 @@ namespace StudentManager_API
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<StudentManagerDbContext>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
-                    await DbContextInit.SeedDataAsync(context, userManager);
+                    await DbContextInit.SeedRolesAsync(roleManager);
+                    await DbContextInit.SeedUsersAsync(userManager);
                 }
                 catch (Exception ex)
                 {
@@ -35,9 +41,13 @@ namespace StudentManager_API
                 }
             }
 
-            host.Run();
+            await host.RunAsync();
         }
-
+        /// <summary>
+        /// Create of host builder
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

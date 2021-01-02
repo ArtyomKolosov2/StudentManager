@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StudentManager_API</name>
+    </assembly>
+    <members>
+        <member name="T:StudentManager_API.Controllers.AccountController">
+            <summary>
+            User account management
+            </summary>
+        </member>
+        <member name="M:StudentManager_API.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User},Microsoft.AspNetCore.Identity.SignInManager{StudentManager_Core.Identity.User},Infrastructure.Services.Base.IJwtGenerator)">
+            <summary>
+            Configuring controller with help of DI
+            </summary>
+            <param name="userManager"></param>
+            <param name="signInManager"></param>
+            <param name="jwtGenerator"></param>
+        </member>
+        <member name="M:StudentManager_API.Controllers.AccountController.Login(Infrastructure.Data.Queries.LoginQuery.LoginQuery)">
+            <summary>
+            Allow user to log in
+            </summary>
+            <remarks>Allows anonymous users</remarks>
+            <param name="request">Contains login data (Email, Password)</param>
+            <returns>If login successful, return JWT token</returns>
+            <response code="200">If login success</response>
+            <response code="400">If model validation error</response>
+            <response code="401">If login failed</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.AccountController.Register(Infrastructure.Data.Queries.RegisterQuery.RegisterQuery)">
+            <summary>
+            Register of new user
+            </summary>
+            <remarks>Allows anonymous users</remarks>
+            <param name="registerQuery">Contains register data</param>
+            <returns>
+            Message with register status
+            </returns>
+            <response code="200">If register succes</response>
+            <response code="401">If model errors</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.AccountController.Logout">
+            <summary>
+            Logout user from StudentManager_API
+            </summary>
+            <remarks>Only for authorized users</remarks>
+            <returns>Message about logout status</returns>
+            <response code="200">If logout succesful</response>
+        </member>
+        <member name="T:StudentManager_API.Controllers.RoleController">
+            <summary>
+            Role managment
+            </summary>
+            <response code="401">If user is unauthorized</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User},Microsoft.AspNetCore.Identity.RoleManager{Microsoft.AspNetCore.Identity.IdentityRole})">
+            <summary>
+            Configuring controller with help of DI
+            </summary>
+            <param name="userManager"></param>
+            <param name="roleManager"></param>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.GetRoles">
+            <summary>
+            List of all roles
+            </summary>
+            <returns>List of roles</returns>
+            <response code="401">If user is unauthorized</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.GetRole(System.String)">
+            <summary>
+            Get a role by id
+            </summary>
+            <param name="id">Role id</param>
+            <returns>Founded role</returns>
+            <response code="200">If search was successful</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="404">If the role wasn't found</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.CreateRole(System.String)">
+            <summary>
+            Create a new role
+            </summary>
+            <remarks>Access: admin, moderator, developer</remarks>
+            <param name="name">Name of the new role</param>
+            <response code="200">If creation was successful</response>
+            <response code="400">If the params were invalid</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.DeleteRole(System.String)">
+            <summary>
+            Delete a role by id
+            </summary>
+            <remarks>Access: admin, moderator, developer</remarks>
+            <param name="id">Role id</param>
+            <response code="200">If deletion was succesful</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+            <response code="404">If the role wasn't found</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.GetUserRoles(System.String)">
+            <summary>
+            Get user roles
+            </summary>
+            <remarks>Access: admin, moderator, developer</remarks>
+            <param name="userId">User id</param>
+            <returns>Info about user and his roles</returns>
+            <response code="200">If search was succesful</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+            <response code="404">If the user wasn't found</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.RoleController.EditUserRoles(Infrastructure.Data.Queries.RoleQuery.ChangeRoleQuery,System.String)">
+            <summary>
+            Editing user roles
+            </summary>
+            <param name="changeRolesQuery"></param>
+            <param name="id"></param>
+            <remarks>Access: admin, moderator, developer</remarks>
+            <response code="200">If edit was succesful</response>
+            <response code="400">If the user ID from request is not equal to the ID found by the user manager</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+            <response code="404">If the user wasn't found</response>
+        </member>
+    </members>
+</doc>

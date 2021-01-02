@@ -16,27 +16,31 @@ namespace Infrastructure.Services
 
         public JwtGenerator(IConfiguration config)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtTokenKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mysecretkey757228"));
         }
-        public string CreateJwtToken(User user)
+        public string CreateJwtToken(User user, IList<string> userRoles)
         {
-            var claims = new List<Claim> 
-            { 
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email) 
-            };
 
-            var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
+            var claims = new List<Claim> 
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                
+            };
+            foreach (var role in userRoles)
+            {
+                claims.Add(new Claim(ClaimsIdentity.DefaultRoleClaimType, role));
+            }
+            var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(14),
+                Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = credentials
             };
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
         }

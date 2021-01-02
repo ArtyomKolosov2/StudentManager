@@ -9,6 +9,6 @@ namespace Infrastructure.Services.Base
 {
     public interface IJwtGenerator
     {
-        string CreateJwtToken(User user);
+        string CreateJwtToken(User user, IList<string> userRoles);
     }
 }
