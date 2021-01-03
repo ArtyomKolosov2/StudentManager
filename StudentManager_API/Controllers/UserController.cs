@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace StudentManager_API.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class UserController : ControllerBase
     {

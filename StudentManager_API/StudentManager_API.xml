@@ -125,5 +125,50 @@
             <response code="403">If user doesn't have access</response>
             <response code="404">If the user wasn't found</response>
         </member>
+        <member name="T:StudentManager_API.Program">
+            <summary>
+            Entry point of project
+            </summary>
+        </member>
+        <member name="M:StudentManager_API.Program.Main(System.String[])">
+            <summary>
+            Method main
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StudentManager_API.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Create of host builder
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StudentManager_API.Startup">
+            <summary>
+            Class with logic for configuring services and middleware
+            </summary>
+        </member>
+        <member name="M:StudentManager_API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <param name="configuration">Represents a set of key/value application configuration properties.</param>
+        </member>
+        <member name="P:StudentManager_API.Startup.Configuration">
+            <summary>
+            IConfiguration property
+            </summary>
+        </member>
+        <member name="M:StudentManager_API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:StudentManager_API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
     </members>
 </doc>

@@ -60,7 +60,7 @@ namespace StudentManager_API
               .AddSignInManager<SignInManager<User>>();
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("mysecretkey757228"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtTokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(
                     options =>

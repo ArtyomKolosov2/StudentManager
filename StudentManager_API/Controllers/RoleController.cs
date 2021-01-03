@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Data.Queries.RoleQuery;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StudentManager_Core.Identity;
@@ -17,6 +16,7 @@ namespace StudentManager_API.Controllers
     /// </summary>
     /// <response code="401">If user is unauthorized</response>
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [Authorize]
     [ApiController]
     public class RoleController : ControllerBase
