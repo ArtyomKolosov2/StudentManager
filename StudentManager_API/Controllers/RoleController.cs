@@ -14,7 +14,6 @@ namespace StudentManager_API.Controllers
     /// <summary>
     /// Role managment
     /// </summary>
-    /// <response code="401">If user is unauthorized</response>
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Authorize]
@@ -40,6 +39,7 @@ namespace StudentManager_API.Controllers
         /// List of all roles
         /// </summary>
         /// <returns>List of roles</returns>
+        /// <response code="200">If ok</response>
         /// <response code="401">If user is unauthorized</response>
         [HttpGet]
         public ActionResult<IEnumerable<IdentityRole>> GetRoles()
@@ -55,7 +55,7 @@ namespace StudentManager_API.Controllers
         /// <returns>Founded role</returns>
         /// <response code="200">If search was successful</response>
         /// <response code="401">If user is unauthorized</response>
-        /// <response code="404">If the role wasn't found</response>
+        /// <response code="204">If the role wasn't found</response>
         [HttpGet("{id}")]
         public async Task<ActionResult<IdentityRole>> GetRole(string id)
         {
@@ -64,7 +64,7 @@ namespace StudentManager_API.Controllers
             {
                 return Ok(role);
             }
-            return NotFound();
+            return NoContent();
         }
 
         // POST: api/Role/name
@@ -110,7 +110,7 @@ namespace StudentManager_API.Controllers
         /// <response code="200">If deletion was succesful</response>
         /// <response code="401">If user is unauthorized</response>
         /// <response code="403">If user doesn't have access</response>
-        /// <response code="404">If the role wasn't found</response>
+        /// <response code="204">If the role wasn't found</response>
         [Authorize(Roles =
             IdentityRoleConstants.ADMIN + "," +
             IdentityRoleConstants.MODERATOR + "," +
@@ -127,7 +127,7 @@ namespace StudentManager_API.Controllers
                     return Ok();
                 }
             }
-            return NotFound();
+            return NoContent();
         }
 
         // PUT: api/Role/GetUserRoles/userId
@@ -140,7 +140,7 @@ namespace StudentManager_API.Controllers
         /// <response code="200">If search was succesful</response>
         /// <response code="401">If user is unauthorized</response>
         /// <response code="403">If user doesn't have access</response>
-        /// <response code="404">If the user wasn't found</response>
+        /// <response code="204">If the user wasn't found</response>
 
         [HttpGet("[action]/{userId}")]
         [Authorize(Roles =
@@ -165,7 +165,7 @@ namespace StudentManager_API.Controllers
                 return Ok(model);
             }
 
-            return NotFound();
+            return NoContent();
         }
 
         /// <summary>
@@ -178,13 +178,13 @@ namespace StudentManager_API.Controllers
         /// <response code="400">If the user ID from request is not equal to the ID found by the user manager</response>
         /// <response code="401">If user is unauthorized</response>
         /// <response code="403">If user doesn't have access</response>
-        /// <response code="404">If the user wasn't found</response>
+        /// <response code="204">If the user wasn't found</response>
         [Authorize(Roles = 
             IdentityRoleConstants.ADMIN + "," + 
             IdentityRoleConstants.MODERATOR + "," + 
             IdentityRoleConstants.DEV)]
         [HttpPut("[action]/{id}")]
-        public async Task<IActionResult> EditUserRoles(ChangeRoleQuery changeRolesQuery, string id)
+        public async Task<IActionResult> EditUserRoles(string id, [FromBody] ChangeRoleQuery changeRolesQuery)
         {
             var user = await _userManager.FindByEmailAsync(changeRolesQuery.UserEmail);
 
@@ -209,7 +209,7 @@ namespace StudentManager_API.Controllers
                 }
             }
 
-            return NotFound();
+            return NoContent();
         }
     }
 }

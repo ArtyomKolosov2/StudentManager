@@ -1,52 +1,91 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Infrastructure.Data.Constants;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentManager_Core.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace StudentManager_API.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>Access: admin, moderator, developer</remarks>
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
+    [Authorize(Roles = IdentityRoleConstants.ADMIN + "," +
+            IdentityRoleConstants.MODERATOR + "," +
+            IdentityRoleConstants.DEV)]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
+
+        /// <summary>
+        /// Configuring of controller
+        /// </summary>
+        /// <param name="userManager"></param>
         public UserController(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
-        // GET: api/<UserController>
+
+        // GET: api/User
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <remarks>Access: admin, moderator, developer</remarks>
+        /// <returns>List of all users</returns>
+        /// <response code="200">If ok</response>
+        /// <response code="401">If user is unauthorized</response>
+        /// <response code="403">If user doesn't have access</response>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return _userManager.Users.ToList();
+            return Ok(await _userManager.Users.ToListAsync());
         }
 
-        // GET api/<UserController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/User/id
+        /// <summary>
+        /// Get user by Id
+        /// </summary>
+        /// <remarks>Access: admin, moderator, developer</remarks>
+        /// <returns>List of all users</returns>
+        /// <response code="200">If ok</response>
+        /// <response code="401">If user is unauthorized</response>
+        /// <response code="403">If user doesn't have access</response>
+        /// <response code="204">If user doesn't found</response>
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<User>> GetUser(string userId)
         {
-            return "value";
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is not null)
+            {
+                return Ok(user);
+            }
+         
+            return NoContent();
         }
 
-        // POST api/<UserController>
+        // POST api/User
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<UserController>/5
+        // PUT api/User/id
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<UserController>/5
+        // DELETE api/User/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

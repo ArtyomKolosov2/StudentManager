@@ -15,6 +15,7 @@ namespace StudentManager_API.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -46,7 +47,7 @@ namespace StudentManager_API.Controllers
         /// <response code="401">If login failed</response>
         [HttpPost("Login")]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginQuery request)
+        public async Task<ActionResult> Login([FromBody] LoginQuery request)
 		{
             if (ModelState.IsValid)
             {
@@ -82,7 +83,7 @@ namespace StudentManager_API.Controllers
         /// <response code="401">If model errors</response>
         [HttpPost("Register")]
         [AllowAnonymous]
-        public async Task<ActionResult> Register(RegisterQuery registerQuery)
+        public async Task<ActionResult> Register([FromBody] RegisterQuery registerQuery)
         {
             if (ModelState.IsValid)
             {
@@ -103,19 +104,6 @@ namespace StudentManager_API.Controllers
                 }
             }
             return ValidationProblem();
-        }
-        /// <summary>
-        /// Logout user from StudentManager_API
-        /// </summary>
-        /// <remarks>Only for authorized users</remarks>
-        /// <returns>Message about logout status</returns>
-        /// <response code="200">If logout succesful</response>
-        [HttpPost("Logout")]
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<ActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok(new {Message = "Logout successful!" });
         }
 	}
 }

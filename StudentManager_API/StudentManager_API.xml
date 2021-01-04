@@ -40,14 +40,6 @@
             <response code="200">If register succes</response>
             <response code="401">If model errors</response>
         </member>
-        <member name="M:StudentManager_API.Controllers.AccountController.Logout">
-            <summary>
-            Logout user from StudentManager_API
-            </summary>
-            <remarks>Only for authorized users</remarks>
-            <returns>Message about logout status</returns>
-            <response code="200">If logout succesful</response>
-        </member>
         <member name="T:StudentManager_API.Controllers.RoleController">
             <summary>
             Role managment
@@ -66,6 +58,7 @@
             List of all roles
             </summary>
             <returns>List of roles</returns>
+            <response code="200">If ok</response>
             <response code="401">If user is unauthorized</response>
         </member>
         <member name="M:StudentManager_API.Controllers.RoleController.GetRole(System.String)">
@@ -112,7 +105,7 @@
             <response code="403">If user doesn't have access</response>
             <response code="404">If the user wasn't found</response>
         </member>
-        <member name="M:StudentManager_API.Controllers.RoleController.EditUserRoles(Infrastructure.Data.Queries.RoleQuery.ChangeRoleQuery,System.String)">
+        <member name="M:StudentManager_API.Controllers.RoleController.EditUserRoles(System.String,Infrastructure.Data.Queries.RoleQuery.ChangeRoleQuery)">
             <summary>
             Editing user roles
             </summary>
@@ -124,6 +117,39 @@
             <response code="401">If user is unauthorized</response>
             <response code="403">If user doesn't have access</response>
             <response code="404">If the user wasn't found</response>
+        </member>
+        <member name="T:StudentManager_API.Controllers.UserController">
+            <summary>
+            
+            </summary>
+            <remarks>Access: admin, moderator, developer</remarks>
+        </member>
+        <member name="M:StudentManager_API.Controllers.UserController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User})">
+            <summary>
+            Configuring of controller
+            </summary>
+            <param name="userManager"></param>
+        </member>
+        <member name="M:StudentManager_API.Controllers.UserController.GetUsers">
+            <summary>
+            Get all users
+            </summary>
+            <remarks>Access: admin, moderator, developer</remarks>
+            <returns>List of all users</returns>
+            <response code="200">If ok</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.UserController.GetUser(System.String)">
+            <summary>
+            Get user by Id
+            </summary>
+            <remarks>Access: admin, moderator, developer</remarks>
+            <returns>List of all users</returns>
+            <response code="200">If ok</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+            <response code="404">If user doesn't found</response>
         </member>
         <member name="T:StudentManager_API.Program">
             <summary>
@@ -139,7 +165,7 @@
         </member>
         <member name="M:StudentManager_API.Program.CreateHostBuilder(System.String[])">
             <summary>
-            Create of host builder
+            Creates the host builder
             </summary>
             <param name="args"></param>
             <returns></returns>

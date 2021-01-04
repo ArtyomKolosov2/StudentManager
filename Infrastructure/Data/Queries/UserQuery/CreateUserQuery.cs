@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Data.Queries.RegisterQuery
+namespace Infrastructure.Data.Queries.UserQuery
 {
-    public class RegisterQuery 
+    public class CreateUserQuery
     {
-        [Required(ErrorMessage = "Укажите login")]
+        [Required(ErrorMessage = "Укажите Имя")]
         public string Login { get; set; }
         [Required(ErrorMessage = "Не указан Email")]
         [EmailAddress(ErrorMessage = "Некорректный адрес")]
@@ -20,12 +16,9 @@ namespace Infrastructure.Data.Queries.RegisterQuery
         [DataType(DataType.Password)]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "Неверный размер")]
         public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public IList<string> UserRoles { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace StudentManager_API
             await host.RunAsync();
         }
         /// <summary>
-        /// Create of host builder
+        /// Creates the host builder
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
