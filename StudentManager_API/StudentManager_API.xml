@@ -44,7 +44,6 @@
             <summary>
             Role managment
             </summary>
-            <response code="401">If user is unauthorized</response>
         </member>
         <member name="M:StudentManager_API.Controllers.RoleController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User},Microsoft.AspNetCore.Identity.RoleManager{Microsoft.AspNetCore.Identity.IdentityRole})">
             <summary>
@@ -69,7 +68,7 @@
             <returns>Founded role</returns>
             <response code="200">If search was successful</response>
             <response code="401">If user is unauthorized</response>
-            <response code="404">If the role wasn't found</response>
+            <response code="204">If the role wasn't found</response>
         </member>
         <member name="M:StudentManager_API.Controllers.RoleController.CreateRole(System.String)">
             <summary>
@@ -91,7 +90,7 @@
             <response code="200">If deletion was succesful</response>
             <response code="401">If user is unauthorized</response>
             <response code="403">If user doesn't have access</response>
-            <response code="404">If the role wasn't found</response>
+            <response code="204">If the role wasn't found</response>
         </member>
         <member name="M:StudentManager_API.Controllers.RoleController.GetUserRoles(System.String)">
             <summary>
@@ -103,20 +102,20 @@
             <response code="200">If search was succesful</response>
             <response code="401">If user is unauthorized</response>
             <response code="403">If user doesn't have access</response>
-            <response code="404">If the user wasn't found</response>
+            <response code="204">If the user wasn't found</response>
         </member>
         <member name="M:StudentManager_API.Controllers.RoleController.EditUserRoles(System.String,Infrastructure.Data.Queries.RoleQuery.ChangeRoleQuery)">
             <summary>
             Editing user roles
             </summary>
             <param name="changeRolesQuery"></param>
-            <param name="id"></param>
+            <param name="userId"></param>
             <remarks>Access: admin, moderator, developer</remarks>
             <response code="200">If edit was succesful</response>
             <response code="400">If the user ID from request is not equal to the ID found by the user manager</response>
             <response code="401">If user is unauthorized</response>
             <response code="403">If user doesn't have access</response>
-            <response code="404">If the user wasn't found</response>
+            <response code="204">If the user wasn't found</response>
         </member>
         <member name="T:StudentManager_API.Controllers.UserController">
             <summary>
@@ -124,11 +123,12 @@
             </summary>
             <remarks>Access: admin, moderator, developer</remarks>
         </member>
-        <member name="M:StudentManager_API.Controllers.UserController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User})">
+        <member name="M:StudentManager_API.Controllers.UserController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User},Microsoft.AspNetCore.Identity.SignInManager{StudentManager_Core.Identity.User})">
             <summary>
             Configuring of controller
             </summary>
             <param name="userManager"></param>
+            <param name="signInManager"></param>
         </member>
         <member name="M:StudentManager_API.Controllers.UserController.GetUsers">
             <summary>
@@ -149,7 +149,36 @@
             <response code="200">If ok</response>
             <response code="401">If user is unauthorized</response>
             <response code="403">If user doesn't have access</response>
-            <response code="404">If user doesn't found</response>
+            <response code="204">If user doesn't found</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.UserController.AddUser(Infrastructure.Data.Queries.UserQuery.CreateUserQuery)">
+            <summary>
+            
+            </summary>
+            <param name="userQuery"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StudentManager_API.Controllers.UserController.UpdateUser(System.String,System.String)">
+            <summary>
+            Update exisiting user
+            </summary>
+            <remarks>Doesn't updates user roles. Check Roles contoroller</remarks>>
+            <param name="id"></param>
+            <param name="value"></param>
+            <response code="200">If ok</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+            <response code="204">If user doesn't found</response>
+        </member>
+        <member name="M:StudentManager_API.Controllers.UserController.DeleteUser(System.String)">
+            <summary>
+            Delete user by id
+            </summary>
+            <param name="id"></param>
+            <response code="200">If ok</response>
+            <response code="401">If user is unauthorized</response>
+            <response code="403">If user doesn't have access</response>
+            <response code="204">If user doesn't found</response>
         </member>
         <member name="T:StudentManager_API.Program">
             <summary>

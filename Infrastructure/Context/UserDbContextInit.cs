@@ -7,7 +7,7 @@ using static Infrastructure.Data.Constants.IdentityRoleConstants;
 
 namespace Infrastructure.Context
 {
-    public class DbContextInit
+    public class UserDbContextInit
     {
         public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {

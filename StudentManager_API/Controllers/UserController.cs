@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data.Constants;
+using Infrastructure.Data.Queries.UserQuery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -27,13 +28,17 @@ namespace StudentManager_API.Controllers
     {
         private readonly UserManager<User> _userManager;
 
+        private readonly SignInManager<User> _signInManager;
+
         /// <summary>
         /// Configuring of controller
         /// </summary>
         /// <param name="userManager"></param>
-        public UserController(UserManager<User> userManager)
+        /// <param name="signInManager"></param>
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // GET: api/User
@@ -74,21 +79,86 @@ namespace StudentManager_API.Controllers
         }
 
         // POST api/User
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userQuery"></param>
+        /// <returns></returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> AddUser([FromBody]CreateUserQuery userQuery)
         {
+            if (ModelState.IsValid)
+            {
+                var newUser = new User
+                {
+                    DisplayFirstName = userQuery.FirstName ?? string.Empty,
+                    DisplayLastName = userQuery.LastName ?? string.Empty,
+                    UserName = userQuery.Login,
+                    Email = userQuery.Email,
+                };
+                var identityResult = await _userManager.CreateAsync(newUser, userQuery.Password);
+                if (identityResult.Succeeded)
+                {
+                    await _userManager.AddToRolesAsync(newUser, userQuery.UserRoles);
+                    return Ok();
+                }
+                else
+                {
+                    foreach (var error in identityResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return ValidationProblem();
         }
 
         // PUT api/User/id
+        /// <summary>
+        /// Update exisiting user
+        /// </summary>
+        /// <remarks>Doesn't updates user roles. Check Roles contoroller</remarks>>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
+        /// <response code="200">If ok</response>
+        /// <response code="401">If user is unauthorized</response>
+        /// <response code="403">If user doesn't have access</response>
+        /// <response code="204">If user doesn't found</response>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void UpdateUser(string id, [FromBody] string value)
         {
         }
 
         // DELETE api/User/5
+        /// <summary>
+        /// Delete user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">If ok</response>
+        /// <response code="401">If user is unauthorized</response>
+        /// <response code="403">If user doesn't have access</response>
+        /// <response code="204">If user doesn't found</response>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> DeleteUser(string id)
         {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user is not null)
+            {
+                var deleteResult = await _userManager.DeleteAsync(user);
+                if (deleteResult.Succeeded)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    foreach (var error in deleteResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+
+            }
+            return NoContent();
         }
     }
 }

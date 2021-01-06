@@ -1,4 +1,8 @@
 using Infrastructure.Context;
+using Infrastructure.Extensions.ServiceCollection.Auth;
+using Infrastructure.Extensions.ServiceCollection.Dependencies;
+using Infrastructure.Extensions.ServiceCollection.Identity;
+using Infrastructure.Extensions.ServiceCollection.Swagger;
 using Infrastructure.Services;
 using Infrastructure.Services.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -42,88 +46,15 @@ namespace StudentManager_API
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var userConnection = Configuration.GetConnectionString("UserConnection");
+
             services.AddControllers();
             services.AddCors();
-
-            var defaultConnection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<StudentManagerDbContext>(options => options.UseSqlServer(defaultConnection));
-
-            services.AddIdentity<User, IdentityRole>(opts =>
-            {
-                opts.Password.RequiredLength = 6;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequireLowercase = false;
-                opts.Password.RequireUppercase = false;
-                opts.Password.RequireDigit = false;
-                opts.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<StudentManagerDbContext>()
-              .AddSignInManager<SignInManager<User>>();
-
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtTokenKey"]));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(
-                    options =>
-                    {
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuerSigningKey = true,
-                            IssuerSigningKey = key,
-                            ValidateAudience = false,
-                            ValidateIssuer = false,
-                        };
-                        
-                    });
-
-            services.AddAuthorization(options => 
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-                .RequireAuthenticatedUser()
-                .Build();
-            });
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo 
-                { 
-                    Title = "StudentManager_API", 
-                    Version = "v1" ,
-                    Description = "A simple student managment system",
-                    Contact = new OpenApiContact 
-                    { 
-                        Email = "artyomkolosov2@gmail.com",
-                        Name = "Artyom Kolosov",
-                        Url = new Uri("https://www.linkedin.com/in/artyom-kolosov/")
-                    }
-                });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme."
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                              Reference = new OpenApiReference
-                              {
-                                 Type = ReferenceType.SecurityScheme,
-                                 Id = "Bearer"
-                              }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-
-            });
+            services.AddIdentityContext(userConnection);
+            services.AddDependenciesInjections();
+            services.AddAuth(Configuration["JwtTokenKey"]);
+            services.AddSwaggerDocs(Assembly.GetExecutingAssembly());
+            
         }
 
         /// <summary>

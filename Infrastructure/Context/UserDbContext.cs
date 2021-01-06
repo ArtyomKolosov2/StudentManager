@@ -4,8 +4,8 @@ using StudentManager_Core.Identity;
 
 namespace Infrastructure.Context
 {
-    public class StudentManagerDbContext : IdentityDbContext<User>
+    public class UserDbContext : IdentityDbContext<User>
     {
-        public StudentManagerDbContext(DbContextOptions<StudentManagerDbContext> options) : base(options) { }
+        public UserDbContext(DbContextOptions<UserDbContext> options) : base(options) { }
     }
 }

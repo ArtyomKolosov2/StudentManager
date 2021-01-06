@@ -119,7 +119,7 @@ namespace StudentManager_API.Controllers
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);
-            if (role != null)
+            if (role is not null)
             {
                 var result = await _roleManager.DeleteAsync(role);
                 if (result.Succeeded)
@@ -142,7 +142,7 @@ namespace StudentManager_API.Controllers
         /// <response code="403">If user doesn't have access</response>
         /// <response code="204">If the user wasn't found</response>
 
-        [HttpGet("[action]/{userId}")]
+        [HttpGet("UserRoles/{userId}")]
         [Authorize(Roles =
             IdentityRoleConstants.ADMIN + "," +
             IdentityRoleConstants.MODERATOR + "," +
@@ -172,7 +172,7 @@ namespace StudentManager_API.Controllers
         /// Editing user roles
         /// </summary>
         /// <param name="changeRolesQuery"></param>
-        /// <param name="id"></param>
+        /// <param name="userId"></param>
         /// <remarks>Access: admin, moderator, developer</remarks>
         /// <response code="200">If edit was succesful</response>
         /// <response code="400">If the user ID from request is not equal to the ID found by the user manager</response>
@@ -183,14 +183,14 @@ namespace StudentManager_API.Controllers
             IdentityRoleConstants.ADMIN + "," + 
             IdentityRoleConstants.MODERATOR + "," + 
             IdentityRoleConstants.DEV)]
-        [HttpPut("[action]/{id}")]
-        public async Task<IActionResult> EditUserRoles(string id, [FromBody] ChangeRoleQuery changeRolesQuery)
+        [HttpPut("UserRoles/{id}")]
+        public async Task<IActionResult> EditUserRoles(string userId, [FromBody] ChangeRoleQuery changeRolesQuery)
         {
             var user = await _userManager.FindByEmailAsync(changeRolesQuery.UserEmail);
 
             if (user is not null)
             {
-                if (user.Id == id)
+                if (user.Id == userId)
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
                     var allRoles = _roleManager.Roles.ToList();
