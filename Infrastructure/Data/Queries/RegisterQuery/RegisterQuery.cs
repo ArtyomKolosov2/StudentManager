@@ -24,7 +24,6 @@ namespace Infrastructure.Data.Queries.RegisterQuery
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Пароль введен неверно")]
         public string ConfirmPassword { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

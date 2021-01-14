@@ -31,8 +31,8 @@ namespace StudentManager_API
                 {
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
-                    await UserDbContextInit.SeedRolesAsync(roleManager);
-                    await UserDbContextInit.SeedUsersAsync(userManager);
+                    await AppDbContextInit.SeedRolesAsync(roleManager);
+                    await AppDbContextInit.SeedUsersAsync(userManager);
                 }
                 catch (Exception ex)
                 {

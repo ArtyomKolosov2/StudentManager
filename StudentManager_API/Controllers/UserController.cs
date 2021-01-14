@@ -94,6 +94,7 @@ namespace StudentManager_API.Controllers
                     DisplayFirstName = userQuery.FirstName ?? string.Empty,
                     DisplayLastName = userQuery.LastName ?? string.Empty,
                     UserName = userQuery.Login,
+                    IsRegistrationConfirmed = true,
                     Email = userQuery.Email,
                 };
                 var identityResult = await _userManager.CreateAsync(newUser, userQuery.Password);

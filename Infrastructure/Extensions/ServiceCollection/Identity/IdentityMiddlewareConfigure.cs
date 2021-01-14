@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Context;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,17 +16,22 @@ namespace Infrastructure.Extensions.ServiceCollection.Identity
     {
         public static void AddIdentityContext(this IServiceCollection services, string connectionString) 
         {
-            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
             services.AddIdentity<User, IdentityRole>(opts =>
             {
-                opts.Password.RequiredLength = 6;
-                opts.Password.RequireNonAlphanumeric = false;
-                opts.Password.RequireLowercase = false;
-                opts.Password.RequireUppercase = false;
-                opts.Password.RequireDigit = false;
+                opts.Password = new PasswordOptions
+                {
+                    RequiredLength = 6,
+                    RequireNonAlphanumeric = false,
+                    RequireLowercase = false,
+                    RequireUppercase = false,
+                    RequireDigit = false,
+                };
                 opts.User.RequireUniqueEmail = true;
-            }).AddEntityFrameworkStores<UserDbContext>();
+                opts.SignIn.RequireConfirmedAccount = true;
+            }).AddEntityFrameworkStores<AppDbContext>()
+            .AddUserConfirmation<UserConfirmationService>();
         }
     }
 }
