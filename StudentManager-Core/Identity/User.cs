@@ -12,6 +12,5 @@ namespace StudentManager_Core.Identity
         public string DisplayFirstName { get; set; }
         public string DisplayLastName { get; set; }
         public bool IsRegistrationConfirmed { get; set; }
-        public string Image { get; set; }
     }
 }

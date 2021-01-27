@@ -24,7 +24,6 @@ namespace Infrastructure.Services
             var claims = new List<Claim> 
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
-                
             };
             foreach (var role in userRoles)
             {

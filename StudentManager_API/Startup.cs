@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,12 +49,16 @@ namespace StudentManager_API
         {
             var userConnection = Configuration.GetConnectionString("UserConnection");
 
-            services.AddControllers();
+            services.AddControllersWithViews();
             services.AddCors();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
             services.AddIdentityContext(userConnection);
             services.AddDependenciesInjections();
             services.AddAuth(Configuration["JwtTokenKey"]);
-            services.AddSwaggerDocs(Assembly.GetExecutingAssembly());
+            //services.AddSwaggerDocs(Assembly.GetExecutingAssembly());
             
         }
 
@@ -67,21 +72,33 @@ namespace StudentManager_API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentManager_API v1"));
+                /*app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentManager_API v1"));*/
             }
 
+            app.UseSpaStaticFiles();
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

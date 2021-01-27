@@ -55,7 +55,7 @@ namespace Infrastructure.Context
         {
             if (await userManager.FindByNameAsync(email) is null)
             {
-                var user = new User { Email = email, UserName = email };
+                var user = new User { Email = email, IsRegistrationConfirmed = true, UserName = email };
                 var result = await userManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {

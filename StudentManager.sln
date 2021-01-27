@@ -5,11 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManager_API", "StudentManager_API\StudentManager_API.csproj", "{77924613-F250-400B-BFA3-10C3330652E0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManager_Desktop", "StudentManager_Desktop\StudentManager_Desktop.csproj", "{CA7C4383-B858-43F4-99F5-EF98468750A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{4E537C9F-CFF3-456A-AD0A-1F2D9D9D5E42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{4E537C9F-CFF3-456A-AD0A-1F2D9D9D5E42}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManager-Core", "StudentManager-Core\StudentManager-Core.csproj", "{5D54DFAA-85AB-4D43-88BB-14E85CB3E9B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManager-Core", "StudentManager-Core\StudentManager-Core.csproj", "{5D54DFAA-85AB-4D43-88BB-14E85CB3E9B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{77924613-F250-400B-BFA3-10C3330652E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77924613-F250-400B-BFA3-10C3330652E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77924613-F250-400B-BFA3-10C3330652E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA7C4383-B858-43F4-99F5-EF98468750A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA7C4383-B858-43F4-99F5-EF98468750A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA7C4383-B858-43F4-99F5-EF98468750A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA7C4383-B858-43F4-99F5-EF98468750A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E537C9F-CFF3-456A-AD0A-1F2D9D9D5E42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E537C9F-CFF3-456A-AD0A-1F2D9D9D5E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E537C9F-CFF3-456A-AD0A-1F2D9D9D5E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
