@@ -49,16 +49,15 @@ namespace StudentManager_API
         {
             var userConnection = Configuration.GetConnectionString("UserConnection");
 
-            services.AddControllersWithViews();
-            services.AddCors();
+            services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "student-client/build";
             });
             services.AddIdentityContext(userConnection);
             services.AddDependenciesInjections();
             services.AddAuth(Configuration["JwtTokenKey"]);
-            //services.AddSwaggerDocs(Assembly.GetExecutingAssembly());
+            services.AddSwaggerDocs(Assembly.GetExecutingAssembly());
             
         }
 
@@ -72,33 +71,35 @@ namespace StudentManager_API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                /*app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentManager_API v1"));*/
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentManager_API v1"));
             }
-
+            app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
 
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = Path.Join(env.ContentRootPath, "student-client");
 
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            
+            });       
         }
     }
 }
