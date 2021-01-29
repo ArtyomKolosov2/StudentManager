@@ -10,19 +10,6 @@
   
 }
 
-.nav{
-  grid-area: n;
-  background-color: blueviolet;
-}
-
-.header{
-  grid-area: h;
-  background-color: aqua;
-}
-
-.header img {
-  width: 80px;
-}
 .content{
   grid-area: c;
   background-color: brown;
