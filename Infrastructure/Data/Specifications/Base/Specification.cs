@@ -29,6 +29,18 @@ namespace Infrastructure.Data.Specifications.Base
             return this;
         }
 
+        public ISpecification<T> WithoutTracking()
+        {
+            IsNoTracking = true;
+            return this;
+        }
+
+        public ISpecification<T> WithTracking()
+        {
+            IsNoTracking = false;
+            return this;
+        }
+
         protected void AddOrdering(Expression<Func<T, object>> expression)
         {
             OrderByExpressions.Add(expression);
