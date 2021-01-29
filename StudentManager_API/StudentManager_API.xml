@@ -47,7 +47,7 @@
         </member>
         <member name="M:StudentManager_API.Controllers.RoleController.#ctor(Microsoft.AspNetCore.Identity.UserManager{StudentManager_Core.Identity.User},Microsoft.AspNetCore.Identity.RoleManager{Microsoft.AspNetCore.Identity.IdentityRole})">
             <summary>
-            Configuring controller with help of DI
+            Configuring controller with the help of DI
             </summary>
             <param name="userManager"></param>
             <param name="roleManager"></param>

@@ -9,14 +9,25 @@ using System.Threading.Tasks;
 namespace StudentManager_API.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    
     [ApiController]
     public class TestController : ControllerBase
     {
         [HttpGet("test")]
+        [Authorize]
         public ActionResult<string> GetResult()
         {
             return "tesssssstttttttt";
         }
+
+        [AllowAnonymous]
+        [HttpGet("test_arr")]
+        public IEnumerable<string> GetStrings() => new List<string>
+        {
+            "string1",
+            "string2",
+            "string3",
+            "string4"
+        };
     }
 }

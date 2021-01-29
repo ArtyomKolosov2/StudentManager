@@ -22,9 +22,8 @@ namespace StudentManager_API.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
-
         /// <summary>
-        /// Configuring controller with help of DI
+        /// Configuring controller with the help of DI
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
