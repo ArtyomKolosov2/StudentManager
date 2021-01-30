@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
-import {NavLink } from 'react-router-dom';
-import s from './Navbar.module.css';
+import {Navbar, Nav, Form, Button, FormControl} from 'react-bootstrap';
 
-export default class Navbar extends Component {
+export default class NavHeader extends Component {
     render() {
         return (
-            <nav className={s.nav}>
-                <div>
-                    <NavLink to='/profile'>Profile</NavLink>
-                </div>
-                <div>
-                    <NavLink to='/login'>Login</NavLink>
-                </div>
-                <div>
-                    <NavLink to='/test'>Test</NavLink>
-                </div>
-            </nav>
-        )
+            <div>
+                <br />
+                <Navbar bg="primary" variant="dark">
+                    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+                    <Nav className="mr-auto">
+                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Nav.Link href="#features">Features</Nav.Link>
+                        <Nav.Link href="#pricing">Pricing</Nav.Link>
+                    </Nav>
+                    <Form inline>
+                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                        <Button variant="outline-light">Search</Button>
+                    </Form>
+                </Navbar>
+            </div>);
     }
 }

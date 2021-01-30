@@ -1,0 +1,17 @@
+.nav{
+    grid-area: n;
+    background-color: lightgray;
+    max-width: fit-content;
+    padding: 10%;
+}
+
+.item {
+    color: blue;
+}
+
+.item a.activeLink{
+    color: gold;
+}
+.item a.hover{
+    color: aqua;
+}
