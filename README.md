@@ -1,1 +1,1 @@
-# StudentManager
+# StudentManager (Pet project)
