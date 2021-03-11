@@ -49,7 +49,7 @@ namespace StudentManager_API
         {
             var userConnection = Configuration.GetConnectionString("UserConnection");
 
-            services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddControllers();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "student-client/build";
@@ -81,16 +81,12 @@ namespace StudentManager_API
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
+
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = Path.Join(env.ContentRootPath, "student-client");

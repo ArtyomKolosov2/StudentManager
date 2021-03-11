@@ -1,7 +1,7 @@
 import './App.css';
 import React, { Component } from 'react';
 import Header from './components/show-layout/Header/Header';
-import Navbar from './components/show-layout/Navbar/Navbar';
+import NavMenu from './components/show-layout/Navbar/NavMenu';
 import Profile from './components/show-layout/Profile/Content';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import UserForm from './components/account/Login';
@@ -13,10 +13,12 @@ export default class App extends Component {
       <div>
         <div className='app-wrapper'>
           <Header />
-          <Navbar />
+          
           <Route path='/profile' component={Profile} />
           <Route path='/test' component={Test}/>
+          <Route path='/login' component={UserForm}/>
           <Route />
+          <NavMenu />
         </div>
       </div>
     );

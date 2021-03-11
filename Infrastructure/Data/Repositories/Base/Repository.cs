@@ -3,6 +3,7 @@ using Infrastructure.Data.Repositories.Base.Interfaces;
 using Infrastructure.Data.Specifications.Base;
 using Infrastructure.Data.Specifications.Base.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using StudentManager_Core.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repositories.Base
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class, IHasId
     {
         protected AppDbContext Context { get; set; }
         private DbSet<T> EntitySet => Context.Set<T>();

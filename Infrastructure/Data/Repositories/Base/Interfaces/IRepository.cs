@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Data.Specifications.Base.Interfaces;
+using StudentManager_Core.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Repositories.Base.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class, IHasId
     {
         public Task<IReadOnlyList<T>> GetAllAsync();
         public Task<IReadOnlyList<T>> GetAllAsync(ISpecification<T> specification);

@@ -48,9 +48,8 @@ namespace Infrastructure.Context
                 await CreateUser("dev1@mail.ru", "123456", DEV, userManager);
                 await CreateUser("dev2@mail.ru", "123456", DEV, userManager);
             }
-            
-
         }
+
         private static async Task CreateUser(string email, string password, string role, UserManager<User> userManager)
         {
             if (await userManager.FindByNameAsync(email) is null)

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './../../App.css';
 
 export default class UserForm extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ export default class UserForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit} className='content'>
                 <p>
                     <label>Login:</label><br />
                     <input type="text" value={this.state.name} onChange={this.onChangeLogin} />
