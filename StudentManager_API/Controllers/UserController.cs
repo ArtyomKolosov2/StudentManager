@@ -27,7 +27,6 @@ namespace StudentManager_API.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-
         private readonly SignInManager<User> _signInManager;
 
         /// <summary>

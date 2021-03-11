@@ -52,9 +52,11 @@ namespace StudentManager_API.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
+
                 if (user is not null)
                 {
                     var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
                     if (result.Succeeded)
                     {
 
@@ -63,11 +65,14 @@ namespace StudentManager_API.Controllers
                             access_token = _generator.CreateJwtToken(user, await _userManager.GetRolesAsync(user)),
                             username = user.UserName,
                         };
+
                         return Ok(response);
                     }
                 }
+
                 return Unauthorized();
             }
+
             return ValidationProblem();
         }
 
@@ -87,6 +92,7 @@ namespace StudentManager_API.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var newUser = new User
                 {
                     DisplayFirstName = registerQuery.FirstName,
@@ -94,15 +100,18 @@ namespace StudentManager_API.Controllers
                     UserName = registerQuery.Login,
                     Email = registerQuery.Email,
                 };
+
                 var identityResult = await _userManager.CreateAsync(newUser, registerQuery.Password);
                 if (identityResult.Succeeded)
                 {
                     await _signInManager.CheckPasswordSignInAsync(newUser, registerQuery.Password, false);
                     await _userManager.AddToRoleAsync(newUser, IdentityRoleConstants.STUDENT);
                     var response = new { Message = "Register successful! Wait for confirmation." };
+
                     return Ok(response);
                 }
             }
+
             return ValidationProblem();
         }
 	}

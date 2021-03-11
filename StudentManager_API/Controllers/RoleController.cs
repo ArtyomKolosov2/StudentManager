@@ -189,6 +189,7 @@ namespace StudentManager_API.Controllers
 
             if (user is not null)
             {
+
                 if (user.Id == userId)
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);

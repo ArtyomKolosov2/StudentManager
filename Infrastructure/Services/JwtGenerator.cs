@@ -18,6 +18,7 @@ namespace Infrastructure.Services
         {
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtTokenKey"]));
         }
+
         public string CreateJwtToken(User user, IList<string> userRoles)
         {
 
